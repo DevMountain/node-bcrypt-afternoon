@@ -1127,7 +1127,7 @@ app.get('/api/treasure/all', auth.usersOnly, treasureCtrl.getAllTreasure);
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 ```
-
+</details>
 ### Part 2 (Middleware)
 
 #### Summary
