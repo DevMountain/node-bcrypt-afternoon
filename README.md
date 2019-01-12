@@ -11,7 +11,6 @@ The purpose of this project is to implement secure password authentication using
 ## Setup
 
 * `fork` and `clone` this repository
-* Open the `bcrypt-start` branch
 * `cd` into the root of the project
 * Run `npm install`
 * Run `npm start`
@@ -145,7 +144,7 @@ app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 #### Summary 
 
-Here We will create an auth controller file and import the bcryptjs package here. We will also build the server endpoint that we will use to register a new user.
+Here we will create an auth controller file and import the bcryptjs package here. We will also build the server endpoint that we will use to register a new user.
 
 #### Instructions
 
@@ -163,8 +162,8 @@ Here We will create an auth controller file and import the bcryptjs package here
 * Otherwise, create a const variable called salt, equal to `bcrypt.genSaltSync(10)`.
 * Create a const variable called `hash`, equal to `bcrypt.hashSync(password, salt)`.
 * Asynchronously (using await) run the `register_user` SQL file, passing in isAdmin, username, and hash as parameters (in that order).
-* Set the value of this SQL query to a variable called user.
-    * It will come as an array, and we just need the first element in the array. 
+* Set the value of this SQL query to a variable called `result`.
+    * Remember that SQL queries come back in an array, so take the first item of the foundUser array and set it to another const variable called `existingUser`. 
 * Set req.session.user to be an object with properties isAdmin, id, and username, equal to user.is_admin, user.id, and user.username.
 * do a `res.status` and `send` with the status being `201` for created and send the user object on session we just created.
 * Now let's test our endpoint with postman.
@@ -338,7 +337,7 @@ This endpoint will take a username and password off of the body and check if the
 * If there is no user found, send a response with status 401, and the string 'User  not found. Please register as a new user before logging in.'
 * Otherwise, create a const variable called `isAuthenticated` and set it equal to `bcrypt.compareSync(password, user.hash)`. This method compares the password entered by the user at login to the hashed and salted version stored in the database.
 * If isAuthenticated is false, send a response with status code 403, and the string 'Incorrect password'.
-* Otherwise, set `req.session.user` to be an object with the same properties as the user object from the register endpoint, but using the data retreived from the `get_user` query.
+* Otherwise, set `req.session.user` to be an object with the same properties as the user object from the register endpoint, but using the data retrieved from the `get_user` query.
 * Then send `req.session.user` as a response with status code 200.
 * Now test your endpoint with postman. Paste the following into the body section of the request as raw JSON.
 
@@ -398,7 +397,7 @@ module.exports = {
     const foundUser = await req.app.get('db').get_user([username]);
     const user = foundUser[0];
     if (!user) {
-      return res.status(401).send('User  not found. Please register as a new user before loggin in.');
+      return res.status(401).send('User  not found. Please register as a new user before logging in.');
     }
     const isAuthenticated = bcrypt.compareSync(password, user.hash);
     if (!isAuthenticated) {
@@ -443,7 +442,7 @@ Now that we are successfully able to login, lets code out our front end to take 
 * Alert the error using the `alert()` function, passing in `error.response.request.response`. That chain of data leads to the string response from our server endpoint if there is an error.
 * You should now be able to test the login functionality. In your browser, enter a username and password that you have already registered, or register a new user with a memorable username and password.
 * Click the `Log In` button. You should now see the welcome message. 
-* Since the logout button doesn't work yet, refresh your browser to get the input boxes back. Try logging in with a username that hasn't been used yet. You should get an alert that says 'User not found. Please register as a new user before loggin in.'
+* Since the logout button doesn't work yet, refresh your browser to get the input boxes back. Try logging in with a username that hasn't been used yet. You should get an alert that says 'User not found. Please register as a new user before logging in.'
 * Now try logging in with a registered user, but use an incorrect password. You should see 'Incorrect password' alerted.
 
 #### Solution
@@ -655,10 +654,10 @@ At this point, a user should be able to register, log in, log out, and view the 
 #### Instructions
 
 * Go to treasureController.js and create an async method called getUserTreasure with parameters req and res.
-* This should get the database instance and run the `get_my_treasure` SQL file, passing in the `id` from `req.session.user`.
+* This should get the database instance and run the `get_user_treasure` SQL file, passing in the `id` from `req.session.user`.
 * Use the await keyword on the database query, and store the result on a variable.
 * Send the result of this database query as the response with status 200.
-* Now go to `server/index.js` and create a get endpoint, '/api/treasure/user', with the function `treasureCtrl.getMyTreasure`.
+* Now go to `server/index.js` and create a get endpoint, '/api/treasure/user', with the function `treasureCtrl.getUserTreasure`.
 * Before we can test this endpoint, you will need to log in with postman to set up our session. send a POST request to `http://localhost:4000/auth/login` with the following raw JSON request body:
 
 <details><summary> Postman JSON Body - Login </summary>
@@ -1171,7 +1170,7 @@ Now that we have an endpoint that will retrieve treasure data for all users, we 
     }
 
     ```
-  * Now that our non-admin user is logedin (which also puts their data on the session), send another GET request to `http://localhost:4000/api/treasure/all`.
+  * Now that our non-admin user is loggedin (which also puts their data on the session), send another GET request to `http://localhost:4000/api/treasure/all`.
     * You should receive `You are not an admin` as a response.
   * Now that we know our admin middleware is denying non-admins, log in as an admin by sending a POST request to `http://localhost:4000/auth/login` with the following raw JSON body:
   
