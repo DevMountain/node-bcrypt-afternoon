@@ -29,20 +29,19 @@ Here we will set up the server and get it listening on a port. We will install a
 
 Here we will create the server file.
 
-* Create a folder called server on the root.
+* Create a folder called `server` on the root.
 * Create a file called `index.js` in the server folder.
-* Install and require the following packages and store them on const variables
+* Install and require the following packages and store them as `const` variables
   * express
   * express-session
   * massive
-  * body-parser
   * dotenv
     * When you require dotenv, immediately invoke the config method from this module.
-* Define a const variable called app equal to express invoked.
-* Define a const variable called PORT equal to 4000
-* Use the json method of the body-parser package as top level middleware.  
-* Make the server listen on this port number using app.listen
-* Run nodemon and make sure there are no bugs.
+* Define a const variable called `app` equal to express invoked.
+* Define a const variable called `PORT` equal to 4000
+* Use the json method of the express package as top level middleware.
+* Make the server listen on the previously mentioned port number using `app.listen`
+* Run `nodemon` and make sure there are no bugs.
 
 #### Solution
 
@@ -55,13 +54,12 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const massive = require('massive');
-const bodyParser = require('body-parser');
 
 const PORT = 4000;
 
 const app = express()
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.listen(PORT, ()=>console.log(`Listening on port ${PORT}`))
 ```
@@ -109,7 +107,6 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const massive = require('massive');
-const bodyParser = require('body-parser');
 
 const PORT = 4000;
 
@@ -117,7 +114,7 @@ const { SESSION_SECRET, CONNECTION_STRING } = process.env;
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 massive(CONNECTION_STRING).then(db => {
   app.set('db', db);
@@ -144,28 +141,33 @@ app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 #### Summary 
 
-Here we will create an auth controller file and import the bcryptjs package here. We will also build the server endpoint that we will use to register a new user.
+Here we will create an auth controller file and import the bcryptjs package. We will also build the server endpoint that we will use to register a new user.
 
 #### Instructions
 
-* Create a folder called controllers in server.
-* Create a file called `authController.js` in controllers.
-* Open `server/index.js` and require the authController.js file storing it on a const variable called ac.
+* Create a folder called `controllers` in your server directory.
+* Create a file called `authController.js` in your controllers directory.
+* Open `server/index.js` and require the `authController.js` file storing it on a const variable called ac.
 
 * In `server/index.js` we will create the register endpoint.
 * Create a POST endpoint with '/auth/register' as the URL and ac.register as the controller function.
 
-* Go back to authController.js and create a register method with parameters req and res. We will use `async` and `await`, so make sure to use the `async` keyword before the function.
+* Install `bcryptjs`.
+* Go back to authController.js and require `bcryptjs` as a variable called `bcrypt`.
+* Next, create a register method with parameters req and res. We will use `async` and `await`, so make sure to use the `async` keyword before the function.
 * Destructure username, password and isAdmin from req.body.
-* Get the database instance and run the sql file `get_user`, passing in username. This query will check the database to see if there if the username is already taken. Since this query is asynchronous, make sure to use the await keyword to ensure that the promise resolves before the rest of the code executes.
-* If existingUser is defined, send a response with status 409 and the text 'Username taken');
+* Get the database instance and run the sql file `get_user`, passing in username. This query will check the database to see if the username is already taken. Since this query is asynchronous, make sure to use the `await` keyword to ensure that the promise resolves before the rest of the code executes.
+* Set the value of this SQL query to a variable called `result`.
+    * Remember that SQL queries come back in an array, so take the first item of the array and set it to another const variable called `existingUser`. 
+* If `existingUser` is defined, send a response with status 409 and the text 'Username taken');
 * Otherwise, create a const variable called salt, equal to `bcrypt.genSaltSync(10)`.
 * Create a const variable called `hash`, equal to `bcrypt.hashSync(password, salt)`.
 * Asynchronously (using await) run the `register_user` SQL file, passing in isAdmin, username, and hash as parameters (in that order).
-* Set the value of this SQL query to a variable called `result`.
-    * Remember that SQL queries come back in an array, so take the first item of the foundUser array and set it to another const variable called `existingUser`. 
+* Store the result to a variable called `registeredUser`.
+* Store the first item of the `registeredUser` array to a variable called `user`.
+    * This is our newly created user object.
 * Set req.session.user to be an object with properties isAdmin, id, and username, equal to user.is_admin, user.id, and user.username.
-* do a `res.status` and `send` with the status being `201` for created and send the user object on session we just created.
+* Do a `res.status` and `send` with the status being `201` for created and send the user object on session we just created.
 * Now let's test our endpoint with postman.
     * Open postman and enter `http://localhost:4000/auth/register` in the URL input and send the following as raw JSON on the body of your request:
 
@@ -230,7 +232,6 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const massive = require('massive');
-const bodyParser = require('body-parser');
 const authCtrl = require('./controllers/authController');
 
 const PORT = 4000;
@@ -239,7 +240,7 @@ const { SESSION_SECRET, CONNECTION_STRING } = process.env;
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 massive(CONNECTION_STRING).then(db => {
   app.set('db', db);
@@ -1294,6 +1295,18 @@ Now that our `getAllTreasure` endpoint is working including responding with appr
 ```
 
 </details>
+
+## Resources
+
+<details>
+
+<summary> <code> Bcrypt </code> </summary>
+
+* [Using Bcrypt](https://www.abeautifulsite.net/hashing-passwords-with-nodejs-and-bcrypt)
+* [Bcrypt Example](https://github.com/steven-isbell/bcrypt-demo)
+
+</details>
+
 
 ## Contributions
 
