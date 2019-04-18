@@ -155,19 +155,19 @@ Here we will create an auth controller file and import the bcryptjs package. We 
 * Install `bcryptjs`.
 * Go back to authController.js and require `bcryptjs` as a variable called `bcrypt`.
 * Next, create a register method with parameters req and res. We will use `async` and `await`, so make sure to use the `async` keyword before the function.
-* Destructure username, password and isAdmin from req.body.
-* Get the database instance and run the sql file `get_user`, passing in username. This query will check the database to see if the username is already taken. Since this query is asynchronous, make sure to use the `await` keyword to ensure that the promise resolves before the rest of the code executes.
-* Set the value of this SQL query to a variable called `result`.
-    * Remember that SQL queries come back in an array, so take the first item of the array and set it to another const variable called `existingUser`. 
-* If `existingUser` is defined, send a response with status 409 and the text 'Username taken');
-* Otherwise, create a const variable called salt, equal to `bcrypt.genSaltSync(10)`.
-* Create a const variable called `hash`, equal to `bcrypt.hashSync(password, salt)`.
-* Asynchronously (using await) run the `register_user` SQL file, passing in isAdmin, username, and hash as parameters (in that order).
-* Store the result to a variable called `registeredUser`.
-* Store the first item of the `registeredUser` array to a variable called `user`.
-    * This is our newly created user object.
-* Set req.session.user to be an object with properties isAdmin, id, and username, equal to user.is_admin, user.id, and user.username.
-* Do a `res.status` and `send` with the status being `201` for created and send the user object on session we just created.
+	* Destructure username, password and isAdmin from req.body.
+	* Get the database instance and run the sql file `get_user`, passing in username. This query will check the database to see if the username is already taken. Since this query is asynchronous, make sure to use the `await` keyword to ensure that the promise resolves before the rest of the code executes.
+	* Set the value of this SQL query to a variable called `result`.
+	    * Remember that SQL queries come back in an array, so take the first item of the array and set it to another const variable called `existingUser`. 
+	* If `existingUser` is defined, send a response with status 409 and the text 'Username taken');
+	* Otherwise, create a const variable called salt, equal to `bcrypt.genSaltSync(10)`.
+	* Create a const variable called `hash`, equal to `bcrypt.hashSync(password, salt)`.
+	* Asynchronously (using await) run the `register_user` SQL file, passing in isAdmin, username, and hash as parameters (in that order).
+	* Store the result to a variable called `registeredUser`.
+	* Store the first item of the `registeredUser` array to a variable called `user`.
+	    * This is our newly created user object.
+	* Set req.session.user to be an object with properties isAdmin, id, and username, equal to user.is_admin, user.id, and user.username.
+	* Do a `res.status` and `send` with the status being `201` for created and send the user object on session we just created.
 * Now let's test our endpoint with postman.
     * Open postman and enter `http://localhost:4000/auth/register` in the URL input and send the following as raw JSON on the body of your request:
 
@@ -330,16 +330,16 @@ This endpoint will take a username and password off of the body and check if the
 * Create a POST endpoint with '/auth/login' as the URL and ac.login as the controller function.
 
 * Create a property called login on the `authController` exports object, with the value of an async function that takes a req and res parameter.
-* Destructure username and password from `req.body`, storing them on const variables.
-* Get the database instance using `req.app.get('db')`
-* Using the `get_user` SQL file, query the database for a user with a username matching the username from req.body. Make sure to use the `await` keyword to ensure the promise resolves before referencing the data.
-* Store the result of the SQL query on a const variable called foundUser.
-  * Remember that SQL queries come back in an array, so take the first item of the foundUser array and set it to another const variable called `user`.
-* If there is no user found, send a response with status 401, and the string 'User  not found. Please register as a new user before logging in.'
-* Otherwise, create a const variable called `isAuthenticated` and set it equal to `bcrypt.compareSync(password, user.hash)`. This method compares the password entered by the user at login to the hashed and salted version stored in the database.
-* If isAuthenticated is false, send a response with status code 403, and the string 'Incorrect password'.
-* Otherwise, set `req.session.user` to be an object with the same properties as the user object from the register endpoint, but using the data retrieved from the `get_user` query.
-* Then send `req.session.user` as a response with status code 200.
+	* Destructure username and password from `req.body`, storing them on const variables.
+	* Get the database instance using `req.app.get('db')`
+	* Using the `get_user` SQL file, query the database for a user with a username matching the username from req.body. Make sure to use the `await` keyword to ensure the promise resolves before referencing the data.
+	* Store the result of the SQL query on a const variable called foundUser.
+	  * Remember that SQL queries come back in an array, so take the first item of the foundUser array and set it to another const variable called `user`.
+	* If there is no user found, send a response with status 401, and the string 'User  not found. Please register as a new user before logging in.'
+	* Otherwise, create a const variable called `isAuthenticated` and set it equal to `bcrypt.compareSync(password, user.hash)`. This method compares the password entered by the user at login to the hashed and salted version stored in the database.
+	* If isAuthenticated is false, send a response with status code 403, and the string 'Incorrect password'.
+	* Otherwise, set `req.session.user` to be an object with the same properties as the user object from the register endpoint, but using the data retrieved from the `get_user` query.
+	* Then send `req.session.user` as a response with status code 200.
 * Now test your endpoint with postman. Paste the following into the body section of the request as raw JSON.
 
 <details><summary> Postman JSON Body - Login </summary>
