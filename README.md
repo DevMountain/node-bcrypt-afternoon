@@ -147,10 +147,10 @@ Here we will create an auth controller file and import the bcryptjs package. We 
 
 * Create a folder called `controllers` in your server directory.
 * Create a file called `authController.js` in your controllers directory.
-* Open `server/index.js` and require the `authController.js` file storing it on a const variable called ac.
+* Open `server/index.js` and require the `authController.js` file storing it on a const variable called authCtrl.
 
 * In `server/index.js` we will create the register endpoint.
-* Create a POST endpoint with '/auth/register' as the URL and ac.register as the controller function.
+* Create a POST endpoint with '/auth/register' as the URL and authCtrl.register as the controller function.
 
 * Install `bcryptjs`.
 * Go back to authController.js and require `bcryptjs` as a variable called `bcrypt`.
@@ -327,7 +327,7 @@ Now that we are successfully able to register, lets create the login endpoint so
 This endpoint will take a username and password off of the body and check if there is a user already exists by that username in the database. If the user is not in the database, our endpoint should respond with a 401 status code (unauthorized) since we were not able to authorize the user based on the fact that the username isn't registered. The endpoint should then compare the plain text password sent by the user to the salted and hashed version in our database. At that point, the endpoint should respond with a 200 (OK) status code if the password matches, or a 403 (Forbidden) status code if the password doesn't match.
 
 * In server/index.js we will create the login endpoint.
-* Create a POST endpoint with '/auth/login' as the URL and ac.login as the controller function.
+* Create a POST endpoint with '/auth/login' as the URL and authCtrl.login as the controller function.
 
 * Create a property called login on the `authController` exports object, with the value of an async function that takes a req and res parameter.
 	* Destructure username and password from `req.body`, storing them on const variables.
@@ -474,7 +474,7 @@ Now that our users can register and login, lets build the endpoint and controlle
 
 #### Instructions
 
-* Go to `server/index.js` and create a GET endpoint with url '/auth/logout' and method ac.logout
+* Go to `server/index.js` and create a GET endpoint with url '/auth/logout' and method authCtrl.logout
 
 * Go back to authController.js and create a logout property with the value of an async function with parameters req and res
 * This function should run `req.session.destroy()`. As the name implies, this destroys the data stored on the user's session object, effectively logging the user out.
@@ -949,13 +949,13 @@ module.exports = {
 <details><summary><code> server/index.js </code></summary>
 
 ```js
-app.post('/auth/register', ac.register);
-app.post('/auth/login', ac.login);
-app.get('/auth/logout', ac.logout);
+app.post('/auth/register', authCtrl.register);
+app.post('/auth/login', authCtrl.login);
+app.get('/auth/logout', authCtrl.logout);
 
-app.get('/api/treasure/dragon', tc.dragonTreasure);
-app.get('/api/treasure/user', auth.usersOnly, tc.getUserTreasure);
-app.post('/api/treasure/user', auth.usersOnly, tc.addUserTreasure);
+app.get('/api/treasure/dragon', treasureCtrl.dragonTreasure);
+app.get('/api/treasure/user', auth.usersOnly, treasureCtrl.getUserTreasure);
+app.post('/api/treasure/user', auth.usersOnly, treasureCtrl.addUserTreasure);
 ```
 
 </details>
@@ -1209,14 +1209,14 @@ const auth = require('./middleware/authMiddleware');
 
 ...
 
-app.post('/auth/register', ac.register);
-app.post('/auth/login', ac.login);
-app.get('/auth/logout', ac.logout);
+app.post('/auth/register', authCtrl.register);
+app.post('/auth/login', authCtrl.login);
+app.get('/auth/logout', authCtrl.logout);
 
-app.get('/api/treasure/dragon', tc.dragonTreasure);
-app.get('/api/treasure/user', auth.usersOnly, tc.getUserTreasure);
-app.post('/api/treasure/user', auth.usersOnly, tc.addUserTreasure);
-app.get('/api/treasure/all', auth.usersOnly, auth.adminsOnly, tc.getAllTreasure)
+app.get('/api/treasure/dragon', treasureCtrl.dragonTreasure);
+app.get('/api/treasure/user', auth.usersOnly, treasureCtrl.getUserTreasure);
+app.post('/api/treasure/user', auth.usersOnly, treasureCtrl.addUserTreasure);
+app.get('/api/treasure/all', auth.usersOnly, auth.adminsOnly, treasureCtrl.getAllTreasure)
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
