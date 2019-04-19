@@ -553,8 +553,8 @@ At this point, our user can register, log in, and log out which is all well and 
   * Use the await keyword on the database query and store the result on a variable.
   * Return the result of this database query as the response with status 200.
 
-* Now go to `server/index.js` and require `treasureController.js` storing it on a const variable called `treasureController`.
-* Create a get endpoint, '/api/treasure/dragon', with the function `treasureController.dragonTreasure`.
+* Now go to `server/index.js` and require `treasureController.js` storing it on a const variable called `treasureCtrl`.
+* Create a get endpoint, '/api/treasure/dragon', with the function `treasureCtrl.dragonTreasure`.
 * Now test your endpoint in postman by making a GET request to `http://localhost:4000/api/treasure/dragon`.
 * If everything is working correctly, you should get the following for the response:
 
