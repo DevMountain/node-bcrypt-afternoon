@@ -960,7 +960,7 @@ app.post('/api/treasure/user', auth.usersOnly, treasureCtrl.addUserTreasure);
 
 </details>
 
-### Part 1 (Frontend)
+### Part 2 (Frontend)
 
 #### Summary
 
