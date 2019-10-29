@@ -857,7 +857,7 @@ Now we will code the add treasure functionality on the server side. We will need
 
       ```json
       {
-        "treasureUrl": "https://bible2blog.files.wordpress.com/2015/06/treasurechest.png"
+        "treasureURL": "https://bible2blog.files.wordpress.com/2015/06/treasurechest.png"
       }
       ```
 
