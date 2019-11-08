@@ -361,7 +361,7 @@ You should receive the following response.
 {
   "isAdmin": false,
   "username": "mrsmee",
-  "password": "1stM84Lyfe"
+  "id": 4
 }
 ```
 
