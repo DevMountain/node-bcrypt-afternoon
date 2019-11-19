@@ -848,8 +848,8 @@ Now we will code the add treasure functionality on the server side. We will need
 * Send the results of this SQL query as the response with a `200` status code.
 
 * Create a POST endpoint for this function in index.js.
-  * The endpoint url should be '/api/treasure/user' and `treasureCtrl.addMyTreasure` should be the controller function that runs when this endpoint is hit.
-* Apply the `usersOnly` auth middleware function between the URL path and the controller function (`treasureCtrl.addMyTreasure`).
+  * The endpoint url should be '/api/treasure/user' and `treasureCtrl.addUserTreasure` should be the controller function that runs when this endpoint is hit.
+* Apply the `usersOnly` auth middleware function between the URL path and the controller function (`treasureCtrl.addUserTreasure`).
 * You should now be able to test your endpoint using Postman. Note: this shouldn't work, initially because we don't have an active session, but we need to make sure it won't work if the user isn't logged in.
     * send the following body as a POST request to `http://localhost:4000/api/treasure/user`.
 
