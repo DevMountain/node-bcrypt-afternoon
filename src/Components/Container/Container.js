@@ -1,20 +1,19 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import './Container.css';
-import Treasure from '../Treasure';
+import React, { Component } from 'react'
+import './Container.css'
+import Treasure from '../Treasure'
 
 export default class Container extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       treasures: {},
-    };
-    this.addMyTreasure = this.addMyTreasure.bind(this);
+    }
+    this.addMyTreasure = this.addMyTreasure.bind(this)
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
-      this.setState({ treasures: {} });
+      this.setState({ treasures: {} })
     }
   }
 
@@ -36,12 +35,12 @@ export default class Container extends Component {
         ...this.state.treasures,
         user: newMyTreasure,
       },
-    });
+    })
   }
 
   render() {
-    const { username } = this.props.user;
-    const { dragon, user, all } = this.state.treasures;
+    const { username } = this.props.user
+    const { dragon, user, all } = this.state.treasures
     return (
       <div className="Container">
         {dragon ? (
@@ -54,7 +53,10 @@ export default class Container extends Component {
             <button className="title" onClick={() => this.getDragonTreasure()}>
               See Dragon's <br /> Treasure
             </button>
-            <p>This treasure trove does not require a user to be logged in for access</p>
+            <p>
+              This treasure trove does not require a user to be logged in for
+              access
+            </p>
           </div>
         )}
         {user && username ? (
@@ -67,10 +69,16 @@ export default class Container extends Component {
           </div>
         ) : (
           <div className="treasureBox">
-            <button className="title" onClick={() => this.getMyTreasure()} name="user">
+            <button
+              className="title"
+              onClick={() => this.getMyTreasure()}
+              name="user"
+            >
               See My <br /> Treasure
             </button>
-            <p>This treasure trove requires a user to be logged in for access</p>
+            <p>
+              This treasure trove requires a user to be logged in for access
+            </p>
           </div>
         )}
         {all && username ? (
@@ -80,13 +88,20 @@ export default class Container extends Component {
           </div>
         ) : (
           <div className="treasureBox">
-            <button className="title" onClick={() => this.getAllTreasure()} name="all">
+            <button
+              className="title"
+              onClick={() => this.getAllTreasure()}
+              name="all"
+            >
               See All <br /> Treasure
             </button>
-            <p>This treasure trove requires a user to be a logged in as an admin user for access</p>
+            <p>
+              This treasure trove requires a user to be a logged in as an admin
+              user for access
+            </p>
           </div>
         )}
       </div>
-    );
+    )
   }
 }
