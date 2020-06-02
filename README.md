@@ -116,7 +116,10 @@ const app = express();
 
 app.use(express.json());
 
-massive(CONNECTION_STRING).then(db => {
+massive({
+  connectionString: CONNECTION_STRING,
+  ssl: { rejectUnauthorized: false }
+}).then(db => {
   app.set('db', db);
   console.log('db connected');
 });
@@ -242,7 +245,10 @@ const app = express();
 
 app.use(express.json());
 
-massive(CONNECTION_STRING).then(db => {
+massive({
+  connectionString: CONNECTION_STRING,
+  ssl: { rejectUnauthorized: false }
+}).then(db => {
   app.set('db', db);
   console.log('db connected');
 });
